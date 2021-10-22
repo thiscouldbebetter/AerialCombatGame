@@ -1,0 +1,143 @@
+<html>
+<body>
+
+<script type="text/javascript" src="Action.js"></script>
+<script type="text/javascript" src="Action_Accelerate.js"></script>
+<script type="text/javascript" src="Action_TurnAxisTowardOtherInDirection.js"></script>
+<script type="text/javascript" src="Activity_DoNothing.js"></script>
+<script type="text/javascript" src="Activity_MoveRandomly.js"></script>
+<script type="text/javascript" src="Activity_MoveTowardTargetPos.js"></script>
+<script type="text/javascript" src="Activity_UserInputAccept.js"></script>
+<script type="text/javascript" src="Camera.js"></script>
+<script type="text/javascript" src="CompassPoint.js"></script>
+<script type="text/javascript" src="Constants.js"></script>
+<script type="text/javascript" src="Coords.js"></script>
+<script type="text/javascript" src="Display.js"></script>
+<script type="text/javascript" src="Globals.js"></script>
+<script type="text/javascript" src="InputHelper.js"></script>
+<script type="text/javascript" src="Location.js"></script>
+<script type="text/javascript" src="Mesh.js"></script>
+<script type="text/javascript" src="MeshFace.js"></script>
+<script type="text/javascript" src="Mover.js"></script>
+<script type="text/javascript" src="Orientation.js"></script>
+<script type="text/javascript" src="Plane.js"></script>
+<script type="text/javascript" src="Transform_Orientation.js"></script>
+<script type="text/javascript" src="Venue.js"></script>
+
+<script type="text/javascript">
+ 
+// main
+ 
+function main()
+{
+	var meshForMovers = new Mesh
+	(
+		// vertices
+		[
+			new Coords(-5, 5, 0),
+			new Coords(5, 5, 0),
+			new Coords(2, 0, 0),
+			new Coords(-2, 0, 0),
+			new Coords(0, 0, 20),
+		],
+		// faces
+		[
+			new MeshFace([ 0, 1, 4 ])   ,
+			new MeshFace([ 1, 2, 4 ]),
+			new MeshFace([ 2, 3, 4 ]),
+			new MeshFace([ 3, 0, 4 ]),
+			new MeshFace([ 0, 1, 2, 3 ]),
+		]
+	);
+ 
+	var venueSizeInPixels = new Coords(1, 1, 1).multiplyScalar(1000000);
+ 
+	var moverForPlayer = new Mover
+	(
+		"Player",
+		1, // integrity
+		1.2, // speedMax
+		0.1, // accelPerTick
+		0.05, // turnPerTick
+		new Location
+		(
+			new Coords(-100, 0, 0),
+			Orientation.fromForwardAndDown
+			(
+				new Coords(1, 0, 0),
+				new Coords(0, 0, 1)
+			)
+		),
+		new Activity_UserInputAccept(),
+		"Gray", // color
+		meshForMovers
+	);
+ 
+	Globals.Instance.initialize
+	(
+		20, // framesPerSecond
+		new Display(new Coords(300, 300, 1)),
+		new Venue
+		(
+			"Venue0",
+			venueSizeInPixels,
+			// movers
+			[
+				moverForPlayer,
+ 
+				new Mover
+				(
+					"Prey",
+					1, // integrity
+					1, // speedMax
+					0.1, // accelPerTick
+					0.05, // turnPerTick
+					new Location
+					(
+						new Coords(100, 0, 0),
+						Orientation.fromForwardAndDown
+						(
+							new Coords(1, 0, 0),
+							new Coords(0, 0, 1)
+						)
+					),
+					new Activity_MoveRandomly(),
+					"Green", // color
+					meshForMovers
+				),
+ 
+				new Mover
+				(
+					"Predator",
+					1, // integrity
+					1, // speedMax
+					0.1, // accelPerTick
+					0.05, // turnPerTick
+					new Location
+					(
+						new Coords(0, 0, 0),
+						Orientation.fromForwardAndDown
+						(
+							new Coords(1, 0, 0),
+							new Coords(0, 0, 1)
+						)
+					),
+					new Activity_MoveTowardTargetPos
+					(
+						moverForPlayer.loc.pos
+					),
+					"Red", // color
+					meshForMovers
+				),
+			]
+		)
+	);
+} 
+ 
+// run
+ 
+main();
+ 
+</script>
+</body>
+</html>
