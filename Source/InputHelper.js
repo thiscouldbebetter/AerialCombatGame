@@ -3,7 +3,7 @@ class InputHelper
 {
 	initialize()
 	{
-		this.keyCodesPressed = [];
+		this.keysPressed = [];
  
 		document.body.onkeydown = this.handleEventKeyDown.bind(this);
 		document.body.onkeyup = this.handleEventKeyUp.bind(this);
@@ -13,21 +13,33 @@ class InputHelper
  
 	handleEventKeyDown(event)
 	{
-		var keyCode = "_" + event.keyCode;
-		if (this.keyCodesPressed[keyCode] == null)
+		var key = event.key;
+		if (isNaN(key) == false)
 		{
-			this.keyCodesPressed.push(keyCode);
-			this.keyCodesPressed[keyCode] = keyCode;
+			// Prepend underscore to prevent digit keys being treated as array indices.
+			key = "_" + key; 
+		}
+
+		if (this.keysPressed[key] == null)
+		{
+			this.keysPressed.push(key);
+			this.keysPressed[key] = key;
 		}
 	}
  
 	handleEventKeyUp(event)
 	{
-		var keyCode = "_" + event.keyCode;
-		delete this.keyCodesPressed[keyCode];
-		this.keyCodesPressed.splice
+		var key = event.key;
+		if (isNaN(key) == false)
+		{
+			// Prepend underscore to prevent digit keys being treated as array indices.
+			key = "_" + key; 
+		}
+
+		delete this.keysPressed[key];
+		this.keysPressed.splice
 		(
-			this.keyCodesPressed.indexOf(keyCode), 1
+			this.keysPressed.indexOf(key), 1
 		);
 	} 
 }

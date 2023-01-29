@@ -190,7 +190,6 @@ class Display
 		}
 	}
  
- 
 	drawVenue(venue)
 	{
 		this.clear();
@@ -211,9 +210,15 @@ class Display
 			this.drawCompassPointForCamera(compassPoint, camera);
 		}
  
-		this.drawTextAtPos("Time:" + Globals.Instance.secondsSoFar() + "s", new Coords(10, 10));
-		this.drawTextAtPos("Kills:" + venue.killsSoFar, new Coords(10, 20));
-		this.drawTextAtPos("Deaths:" + venue.deathsSoFar, new Coords(10, 30));
+		var secondsSoFar = Globals.Instance.secondsSoFar();
+		var moverPlayer = movers[0];
+		var moverPlayerSpeed = moverPlayer.loc.vel.magnitude();
+		moverPlayerSpeed = Math.round(moverPlayerSpeed * 100) / 100;
+
+		this.drawTextAtPos("Time:" + secondsSoFar + "s", new Coords(10, 10));
+		this.drawTextAtPos("Speed:" + moverPlayerSpeed + "px/s", new Coords(10, 20));
+		this.drawTextAtPos("Kills:" + venue.killsSoFar, new Coords(10, 30));
+		this.drawTextAtPos("Deaths:" + venue.deathsSoFar, new Coords(10, 40));
 	}
  
 	initialize()

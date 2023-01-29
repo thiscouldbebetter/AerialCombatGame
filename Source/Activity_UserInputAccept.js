@@ -3,44 +3,44 @@ class Activity_UserInputAccept
 {
 	performForActor(actor)
 	{
-		var keyCodesPressed = Globals.Instance.inputHelper.keyCodesPressed;
+		var keysPressed = Globals.Instance.inputHelper.keysPressed;
  
-		var actions = Action.Instances;
+		var actions = Action.Instances();
  
-		for (var i = 0; i < keyCodesPressed.length; i++)
+		for (var i = 0; i < keysPressed.length; i++)
 		{
-			var keyCodePressed = keyCodesPressed[i];
+			var keyPressed = keysPressed[i];
 			var actionToPerform = null;
  
-			if (keyCodePressed == "_38") // up arrow
+			if (keyPressed == "ArrowUp")
 			{
 				actionToPerform = actions.Accelerate;
 			}
-			if (keyCodePressed == "_40") // down arrow
+			else if (keyPressed == "ArrowDown") // down arrow
 			{
 				actionToPerform = actions.Decelerate;
 			}
-			else if (keyCodePressed == "_65") // a
+			else if (keyPressed == "a")
 			{
 				actionToPerform = actions.YawLeft;
 			}
-			else if (keyCodePressed == "_68") // d
+			else if (keyPressed == "d")
 			{
 				actionToPerform = actions.YawRight;
 			}
-			else if (keyCodePressed == "_69") // e
+			else if (keyPressed == "e")
 			{
 				actionToPerform = actions.RollRight;
 			}
-			else if (keyCodePressed == "_81") // q
+			else if (keyPressed == "q")
 			{
 				actionToPerform = actions.RollLeft;
 			}
-			else if (keyCodePressed == "_83") // s
+			else if (keyPressed == "s")
 			{
 				actionToPerform = actions.PitchUp;
 			}
-			else if (keyCodePressed == "_87") // w
+			else if (keyPressed == "w")
 			{
 				actionToPerform = actions.PitchDown;
 			}
